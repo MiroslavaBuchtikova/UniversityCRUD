@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "University", "UniversityCRUD\University.csproj", "{54480CE8-1770-412E-B933-E0AD48ED4E93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "University.Persistance", "Persistance\University.Persistance.csproj", "{9BC15CF0-5A3A-4073-A00A-1C93B1764EBC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F3A23BDD-7F34-4872-B367-37E071FB1F35}"
+	ProjectSection(SolutionItems) = preProject
+		DatabaseInitial.sql = DatabaseInitial.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{54480CE8-1770-412E-B933-E0AD48ED4E93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54480CE8-1770-412E-B933-E0AD48ED4E93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54480CE8-1770-412E-B933-E0AD48ED4E93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54480CE8-1770-412E-B933-E0AD48ED4E93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BC15CF0-5A3A-4073-A00A-1C93B1764EBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BC15CF0-5A3A-4073-A00A-1C93B1764EBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BC15CF0-5A3A-4073-A00A-1C93B1764EBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BC15CF0-5A3A-4073-A00A-1C93B1764EBC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E99E75EC-CC5D-4A09-8092-457874B2178A}
+	EndGlobalSection
+EndGlobal
