@@ -1,6 +1,6 @@
 ----CREATE DATABASE [University_CRUD]
 ----go
---USE [University_CRUD]
+USE [University_CRUD]
 --GO
 --/****** Object:  Table [dbo].[Courses]    Script Date: 6/27/2018 9:40:04 PM ******/
 --SET ANSI_NULLS ON
@@ -72,19 +72,19 @@
 SET IDENTITY_INSERT [dbo].[Courses] ON 
 
 GO
-INSERT [dbo].[Courses] ([Id], [Name], [Credits]) VALUES (1, N'Calculus', 3)
+INSERT [University_CRUD].[dbo].[Courses] ([Id], [Name], [Credits]) VALUES (1, N'Calculus', 3)
 GO
-INSERT [dbo].[Courses] ([Id], [Name], [Credits]) VALUES (2, N'Chemistry', 3)
+INSERT [University_CRUD].[dbo].[Courses] ([Id], [Name], [Credits]) VALUES (2, N'Chemistry', 3)
 GO
-INSERT [dbo].[Courses] ([Id], [Name], [Credits]) VALUES (3, N'Composition', 3)
+INSERT [University_CRUD].[dbo].[Courses]([Id], [Name], [Credits]) VALUES (3, N'Composition', 3)
 GO
-INSERT [dbo].[Courses] ([Id], [Name], [Credits]) VALUES (4, N'Literature', 4)
+INSERT [University_CRUD].[dbo].[Courses] ([Id], [Name], [Credits]) VALUES (4, N'Literature', 4)
 GO
-INSERT [dbo].[Courses] ([Id], [Name], [Credits]) VALUES (5, N'Trigonometry', 4)
+INSERT [University_CRUD].[dbo].[Courses] ([Id], [Name], [Credits]) VALUES (5, N'Trigonometry', 4)
 GO
-INSERT [dbo].[Courses] ([Id], [Name], [Credits]) VALUES (6, N'Microeconomics', 3)
+INSERT [University_CRUD].[dbo].[Courses] ([Id], [Name], [Credits]) VALUES (6, N'Microeconomics', 3)
 GO
-INSERT [dbo].[Courses] ([Id], [Name], [Credits]) VALUES (7, N'Macroeconomics', 3)
+INSERT [University_CRUD].[dbo].[Courses] ([Id], [Name], [Credits]) VALUES (7, N'Macroeconomics', 3)
 GO
 SET IDENTITY_INSERT [dbo].[Courses] OFF
 --GO

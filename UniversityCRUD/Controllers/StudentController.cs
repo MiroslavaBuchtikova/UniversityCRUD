@@ -29,18 +29,28 @@ namespace University
 
         private StudentDto ConvertToDto(Student student)
         {
-            return new StudentDto
+
+            var studentDto = new StudentDto
             {
                 Id = student.Id,
                 Name = student.Name,
-                Email = student.Email,
-                Course1 = student.FirstEnrollment?.Course?.Name,
-                Course1Grade = student.FirstEnrollment?.Grade.ToString(),
-                Course1Credits = student.FirstEnrollment?.Course?.Credits,
-                Course2 = student.SecondEnrollment?.Course?.Name,
-                Course2Grade = student.SecondEnrollment?.Grade.ToString(),
-                Course2Credits = student.SecondEnrollment?.Course?.Credits,
+                Email = student.Email
             };
+
+            if (student.Enrollments.Count > 0)
+            {
+                studentDto.Course1 = student.Enrollments?[0]?.Course?.Name;
+                studentDto.Course1Grade = student.Enrollments?[0]?.Grade.ToString();
+                studentDto.Course1Credits = student.Enrollments?[0]?.Course?.Credits;
+            }
+            if (student.Enrollments.Count > 1)
+            {
+
+                studentDto.Course2 = student.Enrollments?[1]?.Course?.Name;
+                studentDto.Course2Grade = student.Enrollments?[1]?.Grade.ToString();
+                studentDto.Course2Credits = student.Enrollments?[1]?.Course?.Credits;
+            }
+            return studentDto;
         }
 
         [HttpPost]
@@ -87,8 +97,8 @@ namespace University
             student.Name = dto.Name;
             student.Email = dto.Email;
 
-            Enrollment firstEnrollment = student.FirstEnrollment;
-            Enrollment secondEnrollment = student.SecondEnrollment;
+            Enrollment firstEnrollment = student.GetEnrollment(0);
+            Enrollment secondEnrollment = student.GetEnrollment(1);
 
             if (HasEnrollmentChanged(dto.Course1, dto.Course1Grade, firstEnrollment))
             {
@@ -147,7 +157,8 @@ namespace University
                     secondEnrollment.Update(course, Enum.Parse<Grade>(dto.Course2Grade));
                 }
             }
-
+           
+            _studentRepository.Save(student);
             return Ok();
         }
 

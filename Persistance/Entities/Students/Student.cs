@@ -10,13 +10,8 @@ namespace University.Persistance.Entities.Students
         public virtual string Name { get; set; }
         public virtual string Email { get; set; }
 
-        private readonly IList<Enrollment> _enrollments = new List<Enrollment>();
-        public virtual IReadOnlyList<Enrollment> Enrollments => _enrollments.ToList();
-        public virtual Enrollment FirstEnrollment => GetEnrollment(0);
-        public virtual Enrollment SecondEnrollment => GetEnrollment(1);
-
-        private readonly IList<Disenrollment> _disenrollments = new List<Disenrollment>();
-        public virtual IReadOnlyList<Disenrollment> Disenrollments => _disenrollments.ToList();
+        public virtual IList<Enrollment> Enrollments { get; set; }
+        public virtual IList<Disenrollment> Disenrollments { get; set; }
 
         protected Student()
         {
@@ -29,32 +24,40 @@ namespace University.Persistance.Entities.Students
             Email = email;
         }
 
-        private Enrollment GetEnrollment(int index)
+        public Enrollment GetEnrollment(int index)
         {
-            if (_enrollments.Count > index)
-                return _enrollments[index];
+            if (Enrollments?.Count > index)
+                return Enrollments[index];
 
             return null;
         }
 
         public virtual void RemoveEnrollment(Enrollment enrollment)
         {
-            _enrollments.Remove(enrollment);
+            Enrollments.Remove(enrollment);
         }
 
         public virtual void AddDisenrollmentComment(Enrollment enrollment, string comment)
         {
             var disenrollment = new Disenrollment(enrollment.Student, enrollment.Course, comment);
-            _disenrollments.Add(disenrollment);
+            if (Disenrollments == null)
+            {
+                Disenrollments = new List<Disenrollment>();
+            }
+            Disenrollments.Add(disenrollment);
         }
 
         public virtual void Enroll(Course course, Grade grade)
         {
-            if (_enrollments.Count >= 2)
+            if (Enrollments == null)
+            {
+                Enrollments = new List<Enrollment>();
+            }
+            if (Enrollments.Count >= 2)
                 throw new Exception("Cannot have more than 2 enrollments");
 
             var enrollment = new Enrollment(this, course, grade);
-            _enrollments.Add(enrollment);
+            Enrollments.Add(enrollment);
         }
     }
 }

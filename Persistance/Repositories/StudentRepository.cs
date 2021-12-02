@@ -1,4 +1,5 @@
-﻿using University.Persistance.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using University.Persistance.Context;
 using University.Persistance.Entities.Students;
 
 namespace University.Persistance.Repositories
@@ -11,12 +12,14 @@ namespace University.Persistance.Repositories
 
         public Student GetById(long id)
         {
-            return DbContext.Students?.FirstOrDefault(w => w.Id == id);
+            return DbContext.Students?.Include(x => x.Enrollments)
+                .ThenInclude(x => x.Course).FirstOrDefault(w => w.Id == id);
         }
 
         public IReadOnlyList<Student> GetList(string enrolledIn)
         {
-            var result = DbContext.Students.ToList();
+            var result = DbContext.Students.Include(x=>x.Enrollments)
+                .ThenInclude(x=>x.Course).ToList();
 
             if (!string.IsNullOrWhiteSpace(enrolledIn))
             {
