@@ -12,14 +12,20 @@ namespace University.Persistance.Repositories
 
         public Student GetById(long id)
         {
-            return DbContext.Students?.Include(x => x.Enrollments)
-                .ThenInclude(x => x.Course).FirstOrDefault(w => w.Id == id);
+            return DbContext.Students
+                .Include(x => x.Enrollments)
+                .ThenInclude(x => x.Course)
+                .Include(x => x.Disenrollments)
+                .FirstOrDefault(w => w.Id == id);
         }
 
         public IReadOnlyList<Student> GetList(string enrolledIn)
         {
-            var result = DbContext.Students.Include(x=>x.Enrollments)
-                .ThenInclude(x=>x.Course).ToList();
+            var result = DbContext.Students
+                .Include(x=>x.Enrollments)
+                .ThenInclude(x=>x.Course)
+                .Include(x => x.Disenrollments)
+                .ToList();
 
             if (!string.IsNullOrWhiteSpace(enrolledIn))
             {

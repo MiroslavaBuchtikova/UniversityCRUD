@@ -111,21 +111,24 @@ namespace University
                     student.RemoveEnrollment(enrollment);
                     student.AddDisenrollmentComment(enrollment, dto.Course1DisenrollmentComment);
                 }
-
-                if (string.IsNullOrWhiteSpace(dto.Course1Grade))
-                    return BadRequest("Grade is required");
-
-                Course course = _courseRepository.GetByName(dto.Course1);
-
-                if (firstEnrollment == null)
-                {
-                    // Student enrolls
-                    student.Enroll(course, Enum.Parse<Grade>(dto.Course1Grade));
-                }
                 else
                 {
-                    // Student transfers
-                    firstEnrollment.Update(course, Enum.Parse<Grade>(dto.Course1Grade));
+
+                    if (string.IsNullOrWhiteSpace(dto.Course1Grade))
+                        return BadRequest("Grade is required");
+
+                    Course course = _courseRepository.GetByName(dto.Course1);
+
+                    if (firstEnrollment == null)
+                    {
+                        // Student enrolls
+                        student.Enroll(course, Enum.Parse<Grade>(dto.Course1Grade));
+                    }
+                    else
+                    {
+                        // Student transfers
+                        firstEnrollment.Update(course, Enum.Parse<Grade>(dto.Course1Grade));
+                    }
                 }
             }
 
@@ -140,21 +143,24 @@ namespace University
                     student.RemoveEnrollment(enrollment);
                     student.AddDisenrollmentComment(enrollment, dto.Course2DisenrollmentComment);
                 }
-
-                if (string.IsNullOrWhiteSpace(dto.Course2Grade))
-                    return BadRequest("Grade is required");
-
-                Course course = _courseRepository.GetByName(dto.Course2);
-
-                if (secondEnrollment == null)
-                {
-                    // Student enrolls
-                    student.Enroll(course, Enum.Parse<Grade>(dto.Course2Grade));
-                }
                 else
                 {
-                    // Student transfers
-                    secondEnrollment.Update(course, Enum.Parse<Grade>(dto.Course2Grade));
+
+                    if (string.IsNullOrWhiteSpace(dto.Course2Grade))
+                        return BadRequest("Grade is required");
+
+                    Course course = _courseRepository.GetByName(dto.Course2);
+
+                    if (secondEnrollment == null)
+                    {
+                        // Student enrolls
+                        student.Enroll(course, Enum.Parse<Grade>(dto.Course2Grade));
+                    }
+                    else
+                    {
+                        // Student transfers
+                        secondEnrollment.Update(course, Enum.Parse<Grade>(dto.Course2Grade));
+                    }
                 }
             }
            
