@@ -15,52 +15,62 @@ public class StudentService
 
     public void AppendEnrollments(Student student, StudentDto dto)
     {
-        foreach (var enrollmentDto in dto.Enrollments.ToList())
-        {
-            var enrollment = student.Enrollments.SingleOrDefault(w => w.Id == enrollmentDto.Id);
-            if (HasEnrollmentChanged(enrollmentDto.CourseName, enrollmentDto.CourseGrade?.ToString(), enrollment))
-            {
-                if (string.IsNullOrWhiteSpace(enrollmentDto.CourseName)) // Student disenrolls
-                {
-                    if (string.IsNullOrWhiteSpace(enrollmentDto.DisenrollmentComment))
-                        throw new Exception("Disenrollment comment is required");
 
-                    RemoveEnrollment(student, enrollment);
-                    AddDisenrollmentComment(student, enrollment, enrollmentDto.DisenrollmentComment);
+        Enrollment firstEnrollment = GetEnrollment(student, 0);
+        Append(dto.Course1, dto.Course1Grade, dto.Course1DisenrollmentComment, firstEnrollment, student);
+
+
+        Enrollment secondEnrollment = GetEnrollment(student, 1);
+        Append(dto.Course2, dto.Course2Grade, dto.Course2DisenrollmentComment, secondEnrollment, student);
+    }
+
+    public void Append(string courseName, string grade, string courseDisenrollmentComment, Enrollment enrollment, Student student)
+    {
+
+        if (HasEnrollmentChanged(courseName, grade, enrollment))
+        {
+            if (string.IsNullOrWhiteSpace(courseName)) // Student disenrolls
+            {
+                if (string.IsNullOrWhiteSpace(courseDisenrollmentComment))
+                    throw new Exception("Disenrollment comment is required");
+
+                Enrollment enrollmentToRemove = enrollment;
+                student.Enrollments.Remove(enrollmentToRemove);
+                AddDisenrollmentComment(student, enrollment, courseDisenrollmentComment);
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(grade))
+                    throw new Exception("Grade is required");
+
+                Course course = _courseRepository.GetByName(courseName);
+
+                if (enrollment == null)
+                {
+                    // Student enrolls
+                    Enroll(student, course, Enum.Parse<Grade>(grade));
                 }
                 else
                 {
-                    if (string.IsNullOrWhiteSpace(enrollmentDto.CourseGrade))
-                        throw new Exception("Grade is required");
-
-                    Course course = _courseRepository.GetByName(enrollmentDto.CourseName);
-
-                    if (enrollment == null)
-                    {
-                        // Student enrolls
-                        Enroll(student, course, Enum.Parse<Grade>(enrollmentDto.CourseGrade));
-                    }
-                    else
-                    {
-                        // Student transfers
-                        UpdateEnrollment(enrollment, course, Enum.Parse<Grade>(enrollmentDto.CourseGrade.ToString()));
-                    }
+                    // Student transfers
+                    UpdateEnrollment(enrollment, course, Enum.Parse<Grade>(grade));
                 }
             }
         }
     }
+    public Enrollment GetEnrollment(Student student, int index)
+    {
+        if (student.Enrollments?.Count > index)
+            return student.Enrollments[index];
 
+        return null;
+    }
     private bool HasEnrollmentChanged(string newCourseName, string newGrade, Enrollment enrollment)
     {
         return enrollment == null || newCourseName != enrollment.Course.Name || newGrade != enrollment.Grade.ToString();
     }
 
-    public virtual void RemoveEnrollment(Student student, Enrollment enrollment)
-    {
-        student.Enrollments.Remove(enrollment);
-    }
-
-    public virtual void AddDisenrollmentComment(Student student, Enrollment enrollment, string comment)
+    public void AddDisenrollmentComment(Student student, Enrollment enrollment, string comment)
     {
         var disenrollment = new Disenrollment
         {
@@ -76,7 +86,7 @@ public class StudentService
         student.Disenrollments.Add(disenrollment);
     }
 
-    public virtual void Enroll(Student student, Course course, Grade grade)
+    public void Enroll(Student student, Course course, Grade grade)
     {
         if (student.Enrollments?.Count >= 2)
             throw new Exception("Cannot have more than 2 enrollments");

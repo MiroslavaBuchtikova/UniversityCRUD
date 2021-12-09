@@ -37,10 +37,16 @@ namespace University
                 Email = dto.Email
             };
 
-            foreach (var enrollment in dto.Enrollments)
+            if (dto.Course1 != null && dto.Course1Grade != null)
             {
-                Course course = _courseRepository.GetByName(enrollment.CourseName);
-                _studentService.Enroll(student, course, Enum.Parse<Grade>(enrollment.CourseGrade));
+                Course course = _courseRepository.GetByName(dto.Course1);
+                _studentService.Enroll(student, course, Enum.Parse<Grade>(dto.Course1Grade));
+            }
+
+            if (dto.Course2 != null && dto.Course2Grade != null)
+            {
+                Course course = _courseRepository.GetByName(dto.Course2);
+                _studentService.Enroll(student, course, Enum.Parse<Grade>(dto.Course2Grade));
             }
 
             _studentRepository.Save(student);
