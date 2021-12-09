@@ -1,5 +1,3 @@
-
-
 using Microsoft.EntityFrameworkCore;
 using University.Persistance.Context;
 using University.Persistance.Entities.Students;
@@ -20,6 +18,7 @@ namespace University
             services.AddMvc()
                  .AddControllersAsServices();
             services.AddControllers();
+            services.AddTransient<StudentService>();
 
             var connectionString = Configuration.GetConnectionString("database");
             services.AddDbContextPool<UniversityDbContext>(option =>
