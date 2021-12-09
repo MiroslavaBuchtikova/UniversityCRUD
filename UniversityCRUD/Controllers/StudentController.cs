@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using University.Dtos;
 using University.Persistance.Context;
 using University.Persistance.Entities.Students;
 using University.Persistance.Repositories;
@@ -21,9 +20,9 @@ namespace University
         }
 
         [HttpGet]
-        public IActionResult GetList(string enrolled)
+        public IActionResult GetList(string courseName)
         {
-            var students = _studentRepository.GetList(enrolled);
+            var students = _studentRepository.GetList(courseName);
             var dtos = students.Select(x => x.Map()).ToList();
 
             return Ok(dtos);
@@ -72,8 +71,8 @@ namespace University
             student.Email = dto.Email;
 
             _studentService.AppendEnrollments(student, dto);
-
             _studentRepository.Save(student);
+
             return Ok();
         }
 

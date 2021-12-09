@@ -13,12 +13,11 @@ public class StudentService
 
     }
 
-
     public void AppendEnrollments(Student student, StudentDto dto)
     {
-        foreach (var enrollment in student.Enrollments.ToList())
+        foreach (var enrollmentDto in dto.Enrollments.ToList())
         {
-            var enrollmentDto = dto.Enrollments.Where(w => w.Id == enrollment.Id).FirstOrDefault();
+            var enrollment = student.Enrollments.SingleOrDefault(w => w.Id == enrollmentDto.Id);
             if (HasEnrollmentChanged(enrollmentDto.CourseName, enrollmentDto.CourseGrade?.ToString(), enrollment))
             {
                 if (string.IsNullOrWhiteSpace(enrollmentDto.CourseName)) // Student disenrolls
@@ -31,7 +30,6 @@ public class StudentService
                 }
                 else
                 {
-
                     if (string.IsNullOrWhiteSpace(enrollmentDto.CourseGrade))
                         throw new Exception("Grade is required");
 
@@ -54,13 +52,7 @@ public class StudentService
 
     private bool HasEnrollmentChanged(string newCourseName, string newGrade, Enrollment enrollment)
     {
-        if (string.IsNullOrWhiteSpace(newCourseName) && enrollment == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(newCourseName) || enrollment == null)
-            return true;
-
-        return newCourseName != enrollment.Course.Name || newGrade != enrollment.Grade.ToString();
+        return enrollment == null || newCourseName != enrollment.Course.Name || newGrade != enrollment.Grade.ToString();
     }
 
     public virtual void RemoveEnrollment(Student student, Enrollment enrollment)
@@ -72,7 +64,7 @@ public class StudentService
     {
         var disenrollment = new Disenrollment
         {
-            Student = enrollment.Student,
+            Student = student,
             Course = enrollment.Course,
             Comment = comment,
             DateTime = DateTime.Now
@@ -86,20 +78,21 @@ public class StudentService
 
     public virtual void Enroll(Student student, Course course, Grade grade)
     {
-        if (student.Enrollments == null)
-        {
-            student.Enrollments = new List<Enrollment>();
-        }
-        if (student.Enrollments.Count >= 2)
+        if (student.Enrollments?.Count >= 2)
             throw new Exception("Cannot have more than 2 enrollments");
+
 
         var enrollment = new Enrollment
         {
             Student = student,
             Course = course,
             Grade = grade
-
         };
+
+        if (student.Enrollments == null)
+        {
+            student.Enrollments = new List<Enrollment>();
+        }
         student.Enrollments.Add(enrollment);
     }
 
