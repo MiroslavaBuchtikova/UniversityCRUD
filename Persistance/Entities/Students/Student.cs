@@ -2,6 +2,7 @@
 namespace University.Persistance.Entities.Students;
 public class Student : EntityBase
 {
+    public virtual string SSN { get; set; }
     public virtual string Name { get; set; }
     public virtual string Email { get; set; }
 

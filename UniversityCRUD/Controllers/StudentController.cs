@@ -31,8 +31,18 @@ namespace University
         [HttpPost]
         public IActionResult Create([FromBody] StudentDto dto)
         {
+            var existingStudent = _studentRepository.GetBySSN(dto.SSN);
+            if(dto.SSN == null)
+            {
+                return BadRequest($"SSN cant't be null");
+            }
+            if(existingStudent != null)
+            {
+                return BadRequest($"Student with SSN {dto.SSN} already exists");
+            }
             var student = new Student
             {
+                SSN = dto.SSN,
                 Name = dto.Name,
                 Email = dto.Email
             };
@@ -54,24 +64,24 @@ namespace University
             return Ok(student.Map());
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        [HttpDelete("{ssn}")]
+        public IActionResult Delete(string ssn)
         {
-            Student student = _studentRepository.GetById(id);
+            Student student = _studentRepository.GetBySSN(ssn);
             if (student == null)
-                return BadRequest($"No student found for Id {id}");
+                return BadRequest($"No student found for SSN {ssn}");
 
             _studentRepository.Delete(student);
 
             return Ok();
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(long id, [FromBody] StudentDto dto)
+        [HttpPut("{ssn}")]
+        public IActionResult Update(string ssn, [FromBody] StudentDto dto)
         {
-            Student student = _studentRepository.GetById(id);
+            Student student = _studentRepository.GetBySSN(ssn);
             if (student == null)
-                return BadRequest($"No student found for Id {id}");
+                return BadRequest($"No student found for SSN {ssn}");
 
             student.Name = dto.Name;
             student.Email = dto.Email;
