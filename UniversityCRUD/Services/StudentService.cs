@@ -24,36 +24,36 @@ public class StudentService
         Append(dto.Course2, dto.Course2Grade, dto.Course2DisenrollmentComment, secondEnrollment, student);
     }
 
-    public void Append(string courseName, string grade, string courseDisenrollmentComment, Enrollment enrollment, Student student)
+    public void Append(string newCourseName, string newGrade, string courseDisenrollmentComment, Enrollment enrollment, Student student)
     {
 
-        if (HasEnrollmentChanged(courseName, grade, enrollment))
+        if (HasEnrollmentChanged(newCourseName, newGrade, enrollment))
         {
-            if (string.IsNullOrWhiteSpace(courseName)) // Student disenrolls
+            if (string.IsNullOrWhiteSpace(newCourseName)) // Student disenrolls
             {
                 if (string.IsNullOrWhiteSpace(courseDisenrollmentComment))
                     throw new Exception("Disenrollment comment is required");
 
                 Enrollment enrollmentToRemove = enrollment;
                 student.Enrollments.Remove(enrollmentToRemove);
-                AddDisenrollmentComment(student, enrollment, courseDisenrollmentComment);
+                AddDisenrollmentWithComment(student, enrollment, courseDisenrollmentComment);
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(grade))
+                if (string.IsNullOrWhiteSpace(newGrade))
                     throw new Exception("Grade is required");
 
-                Course course = _courseRepository.GetByName(courseName);
+                Course course = _courseRepository.GetByName(newCourseName);
 
                 if (enrollment == null)
                 {
                     // Student enrolls
-                    Enroll(student, course, Enum.Parse<Grade>(grade));
+                    Enroll(student, course, Enum.Parse<Grade>(newGrade));
                 }
                 else
                 {
                     // Student transfers
-                    UpdateEnrollment(enrollment, course, Enum.Parse<Grade>(grade));
+                    UpdateEnrollment(enrollment, course, Enum.Parse<Grade>(newGrade));
                 }
             }
         }
@@ -70,7 +70,7 @@ public class StudentService
         return enrollment == null || newCourseName != enrollment.Course.Name || newGrade != enrollment.Grade.ToString();
     }
 
-    public void AddDisenrollmentComment(Student student, Enrollment enrollment, string comment)
+    public void AddDisenrollmentWithComment(Student student, Enrollment enrollment, string comment)
     {
         var disenrollment = new Disenrollment
         {

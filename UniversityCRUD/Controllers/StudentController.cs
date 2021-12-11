@@ -51,7 +51,7 @@ namespace University
 
             _studentRepository.Save(student);
 
-            return Ok();
+            return Ok(student.Map());
         }
 
         [HttpDelete("{id}")]
@@ -79,7 +79,7 @@ namespace University
             _studentService.AppendEnrollments(student, dto);
             _studentRepository.Save(student);
 
-            return Ok();
+            return Ok(student.Map());
         }
 
 
