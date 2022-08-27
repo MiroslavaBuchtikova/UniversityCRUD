@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "University", "UniversityCRUD\University.csproj", "{54480CE8-1770-412E-B933-E0AD48ED4E93}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "University.Persistance", "Persistance\University.Persistance.csproj", "{9BC15CF0-5A3A-4073-A00A-1C93B1764EBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "University.Persistence", "Persistence\University.Persistence.csproj", "{9BC15CF0-5A3A-4073-A00A-1C93B1764EBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-using University.Persistance.Entities.Students;
+using University.Persistence.Entities.Students;
 
 public static class StudentMapper{
 

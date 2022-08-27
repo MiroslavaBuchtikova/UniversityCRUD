@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using University.Persistance.Context;
-using University.Persistance.Entities.Students;
+using University.Persistence.Context;
+using University.Persistence.Entities.Students;
 
 namespace University
 {

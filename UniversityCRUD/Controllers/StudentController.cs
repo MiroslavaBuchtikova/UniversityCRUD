@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using University.Persistance.Context;
-using University.Persistance.Entities.Students;
-using University.Persistance.Repositories;
+using University.Persistence.Context;
+using University.Persistence.Entities.Students;
+using University.Persistence.Repositories;
 
 namespace University
 {
